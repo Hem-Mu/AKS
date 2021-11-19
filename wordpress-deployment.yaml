@@ -18,12 +18,12 @@ metadata:
   labels:
     app: wordpress
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: wordpress
   strategy:
     type: Recreate
+    # deployment distribution
   template:
     metadata:
       labels:
@@ -41,12 +41,22 @@ spec:
               value: hamster-db.mysql.database.azure.com
             - name: WORDPRESS_DB_PASSWORD
               value: q1q1q1q1q1q!
+              # wordpress wp-config.php
           ports:
             - containerPort: 80
               name: wordpress
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+              # hpa resource
           volumeMounts:
             - name: azuredisk
               mountPath: /var/www/html
+              # pvc mount
       volumes:
         - name: azuredisk
           persistentVolumeClaim:
@@ -72,7 +82,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: default # Standard : default , Premium : managed-premium
+  storageClassName: default
+  # PVC Kind // Standard: default ,Premium: managed-premium
   resources:
     requests:
       storage: 5Gi
