@@ -13,13 +13,13 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: http-service
+                name: wordpress-service
                 port:
                   number: 80
-          - path: /1
-            pathType: Prefix
-            backend:
-              service:
-                name: tom-service
-                port:
-                  number: 80
+          # - path: /1
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: tom-service
+          #       port:
+          #         number: 80
