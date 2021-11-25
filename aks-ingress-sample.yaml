@@ -14,12 +14,13 @@ spec:
       secretName: hem-tls
   rules:
     - host: hemmu.xyz
-    - http:
+      http:
         paths:
-          - path: /
+          - pathType: Prefix
+            path: /
             backend:
               service:
                 name: wordpress-service
                 port:
                   number: 80 # in port
-            pathType: Prefix
+
