@@ -4,13 +4,13 @@ metadata:
   name: wordpress-hpa
 spec:
   maxReplicas: 8
-  minReplicas: 2
+  minReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: wordpress-deployment
-  targetCPUUtilizationPercentage: 50
----
+  targetCPUUtilizationPercentage: 35
+--- # HPA
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -34,11 +34,11 @@ spec:
           name: wordpress
           env:
             - name: WORDPRESS_DB_NAME
-              value: newham
+              value: hemdb
             - name: WORDPRESS_DB_USER
-              value: azureuser@hamster-db
+              value: hamster@hem-db-server
             - name: WORDPRESS_DB_HOST
-              value: hamster-db.mysql.database.azure.com
+              value: hem-db-server.mysql.database.azure.com
             - name: WORDPRESS_DB_PASSWORD
               value: q1q1q1q1q1q!
               # wordpress wp-config.php
@@ -60,7 +60,7 @@ spec:
       volumes:
         - name: volume # azurefile, volume
           persistentVolumeClaim:
-            claimName: azure-hamster-disk # PVC name
+            claimName: azure-hamtorage # PVC name
 ---
 apiVersion: v1
 kind: Service
@@ -78,12 +78,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: azure-hamster-disk
+  name: azure-hamtorage
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: azurefile
-  # Kind
+  # SC name
   resources:
     requests:
       storage: 5Gi
