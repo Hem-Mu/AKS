@@ -74,16 +74,3 @@ spec:
   selector:
     app: wordpress
   type: ClusterIP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: azure-hamtorage
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: azurefile
-  # SC name
-  resources:
-    requests:
-      storage: 5Gi
