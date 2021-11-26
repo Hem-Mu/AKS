@@ -4,7 +4,7 @@ metadata:
   name: wordpress-hpa
 spec:
   maxReplicas: 8
-  minReplicas: 1
+  minReplicas: 2
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
@@ -30,7 +30,7 @@ spec:
         app: wordpress
     spec:
       containers:
-        - image: wordpress
+        - image: hemgistry.azurecr.io/hampress
           name: wordpress
           env:
             - name: WORDPRESS_DB_NAME
@@ -47,11 +47,11 @@ spec:
               name: wordpress
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              memory: "990Mi"
+              cpu: "990m"
             limits:
-              memory: "500Mi"
-              cpu: "400m"
+              memory: "990Mi"
+              cpu: "990m"
               # hpa resource
           volumeMounts:
             - name: volume # azurefile, volume
