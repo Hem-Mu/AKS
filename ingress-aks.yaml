@@ -11,25 +11,26 @@ metadata:
 spec:
   tls:
     - hosts:
-        - hemmu.xyz
+        - "*.hemmu.xyz"
       secretName: hem-tls
   rules:
-    - host: hemmu.xyz
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: wordpress-service
-                port:
-                  number: 80 # in port
-    # - http:
-    #     paths:
-    #       - pathType: Prefix
-    #         path: "/"
-    #         backend:
-    #           service:
-    #             name: wordpress-service
-    #             port:
-    #               number: 80
+  - host: "hemmu.xyz"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: wordpress-service
+            port:
+              number: 80
+  - host: "*.hemmu.xyz"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: wordpress-service
+            port:
+              number: 80
