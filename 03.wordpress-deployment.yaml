@@ -16,7 +16,7 @@ spec:
           value: 10
           periodSeconds: 1 # check 주기
     scaleDown:
-      stabilizationWindowSeconds: 60 # wait 3m
+      stabilizationWindowSeconds: 60 # wait 3m#
       policies:
         - type: Pods
           value: 1
