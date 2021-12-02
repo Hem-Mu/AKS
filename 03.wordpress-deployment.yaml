@@ -1,15 +1,33 @@
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: wordpress-hpa
 spec:
-  maxReplicas: 8
+  maxReplicas: 10
   minReplicas: 2
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: wordpress-deployment
-  targetCPUUtilizationPercentage: 35
+  behavior:
+    scaleUp:
+      policies:
+        - type: Percent
+          value: 10
+          periodSeconds: 1 # check 주기
+    scaleDown:
+      stabilizationWindowSeconds: 60 # wait 3m
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 60
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 15 # scale up 기준 값.
 --- # HPA
 apiVersion: apps/v1
 kind: Deployment
@@ -22,7 +40,10 @@ spec:
     matchLabels:
       app: wordpress
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
     # deployment distribution
   template:
     metadata:
@@ -47,12 +68,12 @@ spec:
               name: wordpress
           resources:
             requests:
-              memory: "990Mi"
-              cpu: "990m"
+              memory: "500Mi"
+              cpu: "500m"
             limits:
-              memory: "990Mi"
-              cpu: "990m"
-              # hpa resource
+              memory: "2Gi"
+              cpu: "900m"
+              # hpa resourceku
           volumeMounts:
             - name: volume # azurefile, volume
               mountPath: /var/www/html
