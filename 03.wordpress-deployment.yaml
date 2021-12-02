@@ -27,7 +27,7 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 15 # scale up 기준 값.
+          averageUtilization: 16 # scale up 기준 값.
 --- # HPA
 apiVersion: apps/v1
 kind: Deployment
