@@ -1,1 +1,1 @@
-Create AKS and WordPress
+Create AKS WordPress
